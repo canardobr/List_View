@@ -1,6 +1,7 @@
 package com.example.listview.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.listview.R;
 import com.example.listview.modelos.Tarefa;
@@ -38,12 +40,28 @@ public class MeuAdapter extends ArrayAdapter<Tarefa> {
             listItem = LayoutInflater.from(context).inflate(R.layout.layout_lista, parent, false);
         }
 
+        ConstraintLayout constraintLayoutLista = listItem.findViewById(R.id.constraint_layout_lista);
+
         Tarefa tarefaAtual = tarefas.get(position);
         TextView nome = listItem.findViewById(R.id.text_view_tarefa_nome);
         nome.setText(tarefaAtual.getNome());
 
         TextView status = listItem.findViewById(R.id.text_view_tarefa_status);
-        status.setText(tarefaAtual.getStatus().toString());
+        if(Boolean.parseBoolean(tarefaAtual.getStatus().toString()))
+        {
+            status.setText("");
+            //constraintLayout_Lista.setBackground(context, R.color.colorConcluido);
+            constraintLayoutLista.setBackgroundColor(context.getResources().getColor(R.color.colorConcluido));
+            constraintLayoutLista.invalidate();
+        }
+        else
+        {
+            status.setText("Concluir");
+            constraintLayoutLista.setBackgroundColor(context.getResources().getColor(R.color.colorNConcluido));
+            constraintLayoutLista.invalidate();
+
+        }
+
 
 
         return listItem;
